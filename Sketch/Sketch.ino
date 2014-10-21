@@ -1,8 +1,8 @@
 #include "Arduino.h"
 #include "MorseController.h"
 
-const int MORSE_PIN = 5;
-MorseController _controller(MORSE_PIN, "ab cde");
+const int MORSE_PIN = 13;
+MorseController _controller(MORSE_PIN, "AB");
 
 void setup()
 {

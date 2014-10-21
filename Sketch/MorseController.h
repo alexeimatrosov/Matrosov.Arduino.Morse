@@ -6,13 +6,14 @@
 class MorseController
 {
     private:
-    	static const int Dot = 400;
+    	static const int Dot = 500;
     	static const int Dash = Dot*3;
-    	static const int SendDelay = Dot;
-    	static const int CharDelay = Dot*3;
-    	static const int WordDelay = Dot*7;
+    	static const int InterGap = Dot;
+    	static const int ShortGap = Dot*3;
+    	static const int MediumGap = Dot*7;
+        static const char* Letters[];
 
-        unsigned long _lastLoopMillis;
+        //unsigned long _lastLoopMillis;
         Switch _switch;
         char* _message;
 
