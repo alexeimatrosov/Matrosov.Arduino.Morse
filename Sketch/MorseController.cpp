@@ -29,57 +29,101 @@ const char* MorseController::Letters[] = {
     "--..",  // Z
 };
 
-MorseController::MorseController(int pin, char* message)
+const char* MorseController::Numbers[] = {
+    "-----", // 0
+    ".----", // 1
+    "..---", // 2
+    "...--", // 3
+    "....-", // 4
+    ".....", // 5
+    "-....", // 6
+    "--...", // 7
+    "---..", // 8
+    "----.", // 9
+};
+
+MorseController::MorseController(int pin, int dotPeriod, char* message)
     : _switch(pin)
 {
+    _dot = dotPeriod;
+    _dash = _dot*3;
+    _interGap = _dot;
+    _shortGap = _dot*3;
+    _mediumGap = _dot*7;
     _message = message;
 }
 
 void MorseController::Setup()
 {
-    // _lastLoopMillis = millis();
+    // _previousLoopMillis = millis();
 }
 
 void MorseController::Loop()
 {
 	for (int i = 0; _message[i]; ++i)
 	{
-		if (_message[i] == ' ')
-		{
-			_switch.Off();
-			delay(MediumGap);
-			continue;
-		}
+		const char* code = GetCharCode(_message[i]);
 
-		int index = _message[i] - 'A';
-		const char* code = Letters[index];
+        if (code == NULL)
+        {
+            Off(_mediumGap);
+            continue;
+        }
 
 		for (int j = 0; code[j]; ++j)
 		{
-			_switch.On();
-			delay(code[j] == '.' ? Dot : Dash);
+			On(code[j] == '.' ? _dot : _dash);
 
 			if (code[j+1] != '\0')
 			{
-				_switch.Off();
-				delay(InterGap);
+				Off(_interGap);
 			}
 		}
 
 		if (_message[i+1] != ' ' && _message[i+1] != '\0')
 		{
-			_switch.Off();
-			delay(ShortGap);
+			Off(_shortGap);
 		}
 	}
 
-	_switch.Off();
-	delay(MediumGap);
+	Off(_mediumGap);
 
     // unsigned long currentMillis = millis();
 
-    // if ((currentMillis - _lastLoopMillis) > 400)
+    // if ((currentMillis - _previousLoopMillis) > 400)
     // {
     //     _traffic->ShowInconclusive();
     // }
+}
+
+const char* MorseController::GetCharCode(char c)
+{
+    if ('A' <= c && c <= 'Z')
+    {
+        return Letters[c - 'A'];
+    }
+
+    if ('a' <= c && c <= 'z')
+    {
+        return Letters[c - 'a'];
+    }
+
+    if ('0' <= c && c <= '9')
+    {
+        return Numbers[c - '0'];
+    }
+
+    return NULL;
+}
+
+void MorseController::On(int period)
+{
+    _switch.On();
+    delay(period);
+}
+
+void MorseController::Off(int period)
+{
+    _switch.Off();
+    delay(period);
 }

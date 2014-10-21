@@ -6,21 +6,27 @@
 class MorseController
 {
     private:
-    	static const int Dot = 500;
-    	static const int Dash = Dot*3;
-    	static const int InterGap = Dot;
-    	static const int ShortGap = Dot*3;
-    	static const int MediumGap = Dot*7;
         static const char* Letters[];
+        static const char* Numbers[];
 
-        //unsigned long _lastLoopMillis;
         Switch _switch;
+        int _dot;
+        int _dash;
+        int _interGap;
+        int _shortGap;
+        int _mediumGap;
         char* _message;
+        //unsigned long _previousLoopMillis;
 
     public:
-        MorseController(int pin, char* message);
+        MorseController(int pin, int dorPeriod, char* message);
         void Setup();
         void Loop();
+
+    private:
+        const char* GetCharCode(char c);
+        void On(int period);
+        void Off(int period);
 };
 
 #endif

@@ -2,7 +2,8 @@
 #include "MorseController.h"
 
 const int MORSE_PIN = 13;
-MorseController _controller(MORSE_PIN, "AB");
+const int DOT_PERIOD = 500;
+MorseController _controller(MORSE_PIN, DOT_PERIOD, "SOS");
 
 void setup()
 {
