@@ -16,7 +16,6 @@ class MorseController
         int _shortGap;
         int _mediumGap;
         char* _message;
-        //unsigned long _previousLoopMillis;
 
     public:
         MorseController(int pin, int dorPeriod, char* message);

@@ -55,7 +55,6 @@ MorseController::MorseController(int pin, int dotPeriod, char* message)
 
 void MorseController::Setup()
 {
-    // _previousLoopMillis = millis();
 }
 
 void MorseController::Loop()
@@ -87,13 +86,6 @@ void MorseController::Loop()
 	}
 
 	Off(_mediumGap);
-
-    // unsigned long currentMillis = millis();
-
-    // if ((currentMillis - _previousLoopMillis) > 400)
-    // {
-    //     _traffic->ShowInconclusive();
-    // }
 }
 
 const char* MorseController::GetCharCode(char c)
